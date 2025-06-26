@@ -27,17 +27,15 @@ export const AboutSection = () => {
               Passionate Web Developer & Project Manager Trainee
             </h3>
 
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-justify">
               I specialize in building intuitive, responsive, and visually engaging web interfaces.
             With experience as a Project Manager, 
             I thrive in collaborative teams and understand the value of clean code, clear communication, and user-centered design.
             </p>
 
-            <p className="text-muted-foreground">
-              I'm passionate about creating elegant solutions to complex
-              problems, and I'm constantly learning new technologies and
-              techniques to stay at the forefront of the ever-evolving web
-              landscape.
+            <p className="text-muted-foreground text-justify">
+              I'm passionate about creating elegant solutions to complex problems and continually expanding my skill set. 
+              For a closer look at my experience, feel free to download my CV below.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
@@ -47,7 +45,8 @@ export const AboutSection = () => {
               </a>
 
               <a
-                href=""
+                href="/resume/MAURICIO_CV.pdf"
+                download="MAURICIO_CV.pdf"
                 className="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary/10 transition-colors duration-300"
               >
                 Download CV
