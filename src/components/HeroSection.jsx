@@ -22,9 +22,9 @@ export const HeroSection = () => {
 
           <p className="text-lg md:text-xl text-muted-foreground max-2-2xl mx-auto opacity-0 animate-fade-in-delay-3">
             I am computer science student from Western Mindanao State University.
-            I specialize in building intuitive, responsive, and visually engaging web interfaces.
-            With experience as a Project Manager, 
-            I thrive in collaborative teams and understand the value of clean code, clear communication, and user-centered design.
+            I’m eager to apply my growing expertise in real-world settings and 
+              am actively seeking opportunities to contribute to modern, 
+              user-focused web projects.
           </p>
 
           <div className="pt-4 opacity-0 animate-fade-in-delay-4">
