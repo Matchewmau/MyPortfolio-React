@@ -4,24 +4,24 @@ import { cn } from "@/lib/utils";
 const skills = [
   // Frontend
   { name: "HTML/CSS", level: 95, category: "frontend" },
-  { name: "JavaScript", level: 90, category: "frontend" },
-  { name: "React", level: 90, category: "frontend" },
-  { name: "TypeScript", level: 85, category: "frontend" },
+  { name: "JavaScript", level: 80, category: "frontend" },
+  { name: "React", level: 80, category: "frontend" },
+  { name: "TypeScript", level: 70, category: "frontend" },
   { name: "Tailwind CSS", level: 90, category: "frontend" },
-  { name: "Next.js", level: 80, category: "frontend" },
+  { name: "Bootstrap", level: 80, category: "frontend" },
 
   // Backend
-  { name: "Node.js", level: 80, category: "backend" },
-  { name: "Express", level: 75, category: "backend" },
-  { name: "MongoDB", level: 70, category: "backend" },
-  { name: "PostgreSQL", level: 65, category: "backend" },
-  { name: "GraphQL", level: 60, category: "backend" },
+  { name: "Node.js", level: 60, category: "backend" },
+  { name: "MySQL", level: 70, category: "backend" },
+  { name: "MongoDB", level: 50, category: "backend" },
+  { name: "GraphQL", level: 40, category: "backend" },
 
   // Tools
-  { name: "Git/GitHub", level: 90, category: "tools" },
-  { name: "Docker", level: 70, category: "tools" },
-  { name: "Figma", level: 85, category: "tools" },
-  { name: "VS Code", level: 95, category: "tools" },
+  { name: "Git/GitHub", level: 70, category: "tools" },
+  { name: "Docker", level: 60, category: "tools" },
+  { name: "Figma", level: 90, category: "tools" },
+  { name: "Canva", level: 80, category: "tools" },
+  { name: "VS Code", level: 90, category: "tools" },
 ];
 
 const categories = ["all", "frontend", "backend", "tools"];
@@ -35,9 +35,12 @@ export const SkillsSection = () => {
   return (
     <section id="skills" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center">
           My <span className="text-primary"> Skills</span>
         </h2>
+        <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">
+          Here are the technologies and tools I work with to build fast, scalable, and user-friendly web applications
+          </p>
 
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories.map((category, key) => (
