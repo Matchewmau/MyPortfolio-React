@@ -14,7 +14,7 @@ export const AboutSection = () => {
           <div className="md:col-span-1 flex justify-center items-center">
             <div className="rounded-xl overflow-hidden shadow-lg border-2 border-primary/20">
               <img
-                src="/public/img/mathew.png"
+                src="/img/mathew.png"
                 alt="Your Name"
                 className="w-full h-auto object-cover transition-transform hover:scale-105 duration-500"
               />
@@ -55,7 +55,7 @@ export const AboutSection = () => {
           </div>
 
           {/* Column 3: Skills/Services */}
-          <div className="grid grid-cols-3 gap-6 md:col-span-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:col-span-3 mt-8">
             <div className="gradient-border p-6 card-hover">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-full bg-primary/10">
