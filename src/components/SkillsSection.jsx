@@ -40,7 +40,7 @@ export const SkillsSection = () => {
         </h2>
         <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">
           Here are the technologies and tools I work with to build fast, scalable, and user-friendly web applications
-          </p>
+        </p>
 
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories.map((category, key) => (
@@ -48,10 +48,10 @@ export const SkillsSection = () => {
               key={key}
               onClick={() => setActiveCategory(category)}
               className={cn(
-                "px-5 py-2 rounded-full transition-colors duration-300 capitalize",
+                "px-5 py-2 rounded-full transition-all duration-300 capitalize border",
                 activeCategory === category
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary/70 text-forefround hover:bd-secondary"
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-card text-foreground hover:bg-primary/10 hover:border-primary/50 border-primary/15"
               )}
             >
               {category}
@@ -63,22 +63,22 @@ export const SkillsSection = () => {
           {filteredSkills.map((skill, key) => (
             <div
               key={key}
-              className="bg-card p-4 rounded-lg shadow-xs card-hover"
+              className="gradient-border p-6 transition-all duration-300 group hover:shadow-xl"
             >
-              <div className="text-left mb-4">
-                <h3 className="font-semibold text-lg"> {skill.name}</h3>
-              </div>
-              <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden">
-                <div
-                  className="bg-primary h-2 rounded-full origin-left animate-[grow_1.5s_ease-out]"
-                  style={{ width: skill.level + "%" }}
-                />
-              </div>
-
-              <div className="text-right mt-1">
-                <span className="text-sm text-muted-foreground">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-semibold text-lg transition-colors duration-300 group-hover:text-primary">
+                  {skill.name}
+                </h3>
+                <span className="text-sm font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">
                   {skill.level}%
                 </span>
+              </div>
+              
+              <div className="w-full bg-secondary/50 h-3 rounded-full overflow-hidden">
+                <div
+                  className="bg-primary h-3 rounded-full origin-left animate-[grow_1.5s_ease-out]"
+                  style={{ width: skill.level + "%" }}
+                />
               </div>
             </div>
           ))}

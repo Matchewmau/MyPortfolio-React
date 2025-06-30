@@ -37,6 +37,7 @@ const projects = [
 
 // Modal component for displaying images
 const ImageModal = ({ isOpen, image, alt, onClose }) => {
+	// const { isOpen, image, alt, onClose } = props;
 	useEffect(() => {
 		const handleEscape = (e) => {
 			if (e.key === "Escape") onClose();
@@ -103,9 +104,9 @@ export const ProjectsSection = () => {
 					{projects.map((project, key) => (
 						<div
 							key={key}
-							className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover relative"
+							className="gradient-border transition-all duration-300 group hover:shadow-xl rounded-lg overflow-hidden"
 						>
-							<div className="h-48 overflow-hidden">
+							<div className="h-48 relative overflow-visible">
 								<img
 									src={project.image}
 									alt={project.title}
@@ -115,9 +116,9 @@ export const ProjectsSection = () => {
 											alt: project.title,
 										})
 									}
-									className="w-full h-full object-cover transition-all duration-500 
-                           group-hover:scale-110 group-hover:translate-y-[-10px] 
-                           cursor-pointer"
+									className="w-full h-full object-cover absolute transition-all duration-500 
+                           group-hover:scale-110 group-hover:-translate-y-2 
+                           cursor-pointer rounded-t-lg"
 								/>
 							</div>
 
@@ -126,14 +127,14 @@ export const ProjectsSection = () => {
 									{project.tags.map((tag, idx) => (
 										<span
 											key={idx}
-											className="px-2 py-1 text-xs font-medium border rounded-full bg-secondary text-secondary-foreground"
+											className="px-2 py-1 text-xs font-medium border border-primary/15 rounded-full bg-secondary text-secondary-foreground"
 										>
 											{tag}
 										</span>
 									))}
 								</div>
 
-								<h3 className="text-xl font-semibold mb-1">
+								<h3 className="text-xl font-semibold mb-1 transition-colors duration-300 group-hover:text-primary">
 									{" "}
 									{project.title}
 								</h3>
@@ -146,17 +147,17 @@ export const ProjectsSection = () => {
 											href={project.demoUrl}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="text-foreground/80 hover:text-primary transition-colors duration-300"
+											className="p-2 rounded-full bg-primary/10 border border-primary/15 text-foreground/80 hover:text-primary hover:bg-primary/20 transition-all duration-300"
 										>
-											<ExternalLink size={20} />
+											<ExternalLink size={18} />
 										</a>
 										<a
 											href={project.githubUrl}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="text-foreground/80 hover:text-primary transition-colors duration-300"
+											className="p-2 rounded-full bg-primary/10 border border-primary/15 text-foreground/80 hover:text-primary hover:bg-primary/20 transition-all duration-300"
 										>
-											<Github size={20} />
+											<Github size={18} />
 										</a>
 									</div>
 								</div>

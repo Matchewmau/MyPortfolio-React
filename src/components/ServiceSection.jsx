@@ -36,17 +36,21 @@ export const ServiceSection = () => {
                     {services.map((service, index) => (
                         <div
                             key={index}
-                            className="bg-card border border-primary/10 p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 flex items-start gap-6 card-hover"
+                            className="bg-card border border-primary/15 p-6 rounded-lg shadow-md 
+                                      transition-all duration-300 group flex items-start gap-6 hover:shadow-xl"
                         >
-                            <div className="shrink-0 rounded-full bg-primary/10 p-3 flex items-center justify-center w-16 h-16">
+                            <div className="shrink-0 rounded-full bg-primary/10 p-3 flex items-center justify-center w-16 h-16
+                                          border border-primary/10 transition-all duration-300 group-hover:bg-primary/20">
                                 <img 
                                     src={service.image} 
                                     alt={service.title}
-                                    className="w-10 h-10 object-contain"
+                                    className="w-10 h-10 object-contain transition-all duration-300 group-hover:scale-110"
                                 />
                             </div>
                             <div className="flex-1">
-                                <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
+                                <h3 className="text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-primary">
+                                    {service.title}
+                                </h3>
                                 <p className="text-sm text-muted-foreground">{service.description}</p>
                             </div>
                         </div>
