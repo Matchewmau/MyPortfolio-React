@@ -104,7 +104,7 @@ export const ProjectsSection = () => {
 					{projects.map((project, key) => (
 						<div
 							key={key}
-							className="gradient-border transition-all duration-300 group hover:shadow-xl rounded-lg overflow-hidden"
+							className="gradient-border transition-all duration-300 group hover:shadow-xl rounded-lg overflow-hidden card-hover"
 						>
 							<div className="h-48 relative overflow-visible">
 								<img

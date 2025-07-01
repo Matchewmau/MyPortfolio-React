@@ -63,7 +63,7 @@ export const SkillsSection = () => {
           {filteredSkills.map((skill, key) => (
             <div
               key={key}
-              className="gradient-border p-6 transition-all duration-300 group hover:shadow-xl"
+              className="gradient-border p-6 transition-all duration-300 group hover:shadow-xl card-hover"
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg transition-colors duration-300 group-hover:text-primary">

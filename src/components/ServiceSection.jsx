@@ -37,7 +37,7 @@ export const ServiceSection = () => {
                         <div
                             key={index}
                             className="bg-card border border-primary/15 p-6 rounded-lg shadow-md 
-                                      transition-all duration-300 group flex items-start gap-6 hover:shadow-xl"
+                                      transition-all duration-300 group flex items-start gap-6 hover:shadow-xl gradient-border card-hover"
                         >
                             <div className="shrink-0 rounded-full bg-primary/10 p-3 flex items-center justify-center w-16 h-16
                                           border border-primary/10 transition-all duration-300 group-hover:bg-primary/20">
