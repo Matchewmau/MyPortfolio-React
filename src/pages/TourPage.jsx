@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { X, Rocket, ArrowUp, Menu, Moon, Sun } from "lucide-react";
+import { X, Rocket, ArrowUp, ArrowDown, Menu, Moon, Sun } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { StarBackground } from "@/components/StarBackground";
 import { ThemeToggle } from "../components/ThemeToggle";
@@ -299,7 +299,7 @@ const TourFooter = () => {
   );
 };
 
-// TourNavbar component that mimics the main Navbar functionality
+// Updated TourNavbar component to match Home page navigation styling
 const TourNavbar = ({ isDarkMode, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -365,18 +365,22 @@ const TourNavbar = ({ isDarkMode, toggleTheme }) => {
 
   // Lock body scroll when menu is open
   useEffect(() => {
+    let scrollPosition = 0;
+    
     if (isMenuOpen) {
-      // Save current scroll position
-      const scrollY = window.scrollY;
+      // Save current scroll position before locking
+      scrollPosition = window.scrollY;
       document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.top = `-${scrollPosition}px`;
       document.body.style.width = "100%";
     } else {
-      // Restore scroll position
+      // Restore scroll position when unlocking
       const scrollY = document.body.style.top;
       document.body.style.position = "";
       document.body.style.top = "";
       document.body.style.width = "";
+      
+      // Only attempt to restore scroll if we have a position saved
       if (scrollY) {
         window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
       }
@@ -408,9 +412,9 @@ const TourNavbar = ({ isDarkMode, toggleTheme }) => {
           </span>
         </Link>
 
-        {/* Center - Navigation Items (Desktop) */}
-        <div className="hidden lg:flex items-center justify-center flex-grow">
-          <div className="flex items-center gap-2 p-1 rounded-lg bg-background/50 backdrop-blur-sm border border-border">
+        {/* Center - Navigation Items (Desktop) - Made more centered like Home page */}
+        <div className="hidden lg:flex items-center justify-center flex-grow mx-auto">
+          <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2 p-1 rounded-lg bg-background/50 backdrop-blur-sm border-border/50">
             {navItems.map((item) => {
               const isActive = activeDay === item.day;
               return (
@@ -432,11 +436,11 @@ const TourNavbar = ({ isDarkMode, toggleTheme }) => {
         </div>
 
         {/* Right - Theme toggle and mobile menu button */}
-        <div className="flex items-center">
+        <div className="flex items-center z-10">
           {/* Theme toggle - always visible */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full border border-primary/20 hover:bg-primary/10 transition-colors duration-300 mr-2"
+            className="p-2 rounded-full border-primary/20 hover:bg-primary/10 transition-colors duration-300 mr-2"
             aria-label={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
             {isDarkMode ? (
@@ -457,11 +461,11 @@ const TourNavbar = ({ isDarkMode, toggleTheme }) => {
           </button>
         </div>
 
-        {/* Mobile nav overlay */}
+        {/* Mobile nav overlay - Now matching the Home page styling */}
         <div
           ref={mobileNavRef}
           className={cn(
-            "fixed top-0 left-0 w-full h-full bg-background/95 backdrop-blur-md z-40",
+            "fixed inset-0 bg-background/95 backdrop-blur-md z-30",
             "flex items-center justify-center lg:hidden",
             "transition-all duration-300",
             isMenuOpen
@@ -469,17 +473,17 @@ const TourNavbar = ({ isDarkMode, toggleTheme }) => {
               : "opacity-0 pointer-events-none"
           )}
         >
-          {/* Mobile nav content wrapper */}
+          {/* Mobile nav content wrapper - Same as Home page */}
           <div 
             ref={navContentRef}
             className="flex flex-col items-center max-h-[80vh] overflow-y-auto py-8"
           >
             <div className="flex flex-col space-y-3 p-2 bg-background/30 rounded-lg border border-border/50">
-              {navItems.map((item, key) => {
+              {navItems.map((item, index) => {
                 const isActive = activeDay === item.day;
                 return (
                   <a
-                    key={key}
+                    key={index}
                     href={item.href}
                     className={cn(
                       "px-6 py-3 rounded-md transition-all duration-300 text-center",
@@ -491,7 +495,7 @@ const TourNavbar = ({ isDarkMode, toggleTheme }) => {
                     style={{
                       transform: isMenuOpen ? 'translateY(0)' : 'translateY(-20px)',
                       opacity: isMenuOpen ? 1 : 0,
-                      transitionDelay: isMenuOpen ? `${200 + key * 100}ms` : '0ms',
+                      transitionDelay: isMenuOpen ? `${200 + index * 100}ms` : '0ms',
                       transitionProperty: 'transform, opacity',
                       transitionDuration: '500ms'
                     }}
@@ -652,15 +656,18 @@ export const TourPage = () => {
       </div>
       
       {/* Main Content - adjust top padding to account for navbar */}
-      <main className="pt-18">
+      <main>
         {/* Introduction section */}
-        <section className="z-10 relative min-h-[50vh] flex flex-col items-center justify-center px-4 py-16 bg-gradient-to-b from-primary/10 to-transparent">
+        <section
+          id="tour-intro"
+          className="relative min-h-screen flex flex-col items-center justify-center px-4"
+        >
           <div className="container max-w-4xl mx-auto text-center z-10">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
                 <span className="opacity-0 animate-fade-in">Industrial</span>
                 <span className="text-primary opacity-0 animate-fade-in-delay-1"> Tour </span>
-                <span className="opacity-0 animate-fade-in-delay-2">Experience</span>
+                <span className="text-gradient opacity-0 animate-fade-in-delay-2">Experience</span>
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
@@ -668,7 +675,18 @@ export const TourPage = () => {
                 From company visits to cultural sites, our industrial tour combined professional learning 
                 with memorable experiences that inspired and prepared us for future careers.
               </p>
+
+              <div className="pt-4 opacity-0 animate-fade-in-delay-4">
+                <a href="#day-1" className="cosmic-button">
+                  Start The Journey
+                </a>
+              </div>
             </div>
+          </div>
+
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
+            <span className="text-sm text-muted-foreground mb-2">Explore</span>
+            <ArrowDown className="h-5 w-5 text-primary" />
           </div>
         </section>
         
