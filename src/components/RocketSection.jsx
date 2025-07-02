@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 export const RocketSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
-  const [launchPhase, setLaunchPhase] = useState(0); // 0: normal, 1: enlarged, 2: flying, 3: disappeared
+  const [launchPhase, setLaunchPhase] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Show rocket after a short delay once component mounts
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 500);
@@ -17,11 +16,14 @@ export const RocketSection = () => {
     return () => clearTimeout(timer);
   }, []);
 
+
   const handleRocketClick = () => {
     if (!isLaunching) {
+      window.scrollTo(0, 0);
+      
       // Start the launch sequence
       setIsLaunching(true);
-      setLaunchPhase(1); // Enlarge phase
+      setLaunchPhase(1);
       
       // Phase 2: Flying to the top
       setTimeout(() => {

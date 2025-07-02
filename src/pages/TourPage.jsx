@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { X, Rocket } from "lucide-react";
+import { X, Rocket, ArrowUp } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { StarBackground } from "@/components/StarBackground";
 import { ThemeToggle } from "../components/ThemeToggle";
-import { Footer } from "../components/Footer";
+import { Footer as MainFooter } from "../components/Footer";
 
-// Tour data with planetary theme
+// Tour data with planetary theme - expanded to 8 planets
 const tourData = [
-  // Day 1 - Kepler-186f (Exoplanet in Cygnus constellation)
+  // Day 1 - Kepler-186f (Arrival and City Tour)
   {
     day: 1,
     planet: "Kepler-186f",
@@ -22,35 +22,22 @@ const tourData = [
     planetImage: "/tour/kepler186f.png",
     companies: [
       {
-        name: "Tech Solutions Inc.",
+        name: "Intramuros Historic District",
         image: "/tour/company1.jpg",
-        description: "Tech Solutions Inc. is a leading software development company specializing in enterprise solutions.",
-        activities: "During our visit, we toured their development facilities and participated in a coding workshop focusing on modern web frameworks. We also had the opportunity to collaborate on a mock project using their proprietary development tools."
+        description: "A famous historical area in Manila featuring walls and buildings from the Spanish colonial period, showcasing centuries of cultural heritage.",
+        activities: "Our tour began on a rainy Sunday morning. Despite the heavy rain, our flight proceeded as scheduled and we arrived in Manila around 8:00 AM. After settling into our dormitory accommodations and having brunch, we started our city tour at 1:00 PM, visiting Intramuros where we learned about historical sites and glimpsed into the region's rich past."
       },
       {
-        name: "DataViz Systems",
+        name: "SM Mall of Asia",
         image: "/tour/company2.jpg",
-        description: "DataViz Systems creates data visualization tools for business intelligence, helping organizations transform complex data into actionable insights.",
-        activities: "We observed their design team working on user interface prototypes and participated in a demo of their latest analytics dashboard platform. The team allowed us to test their beta software and provide feedback on the user experience."
+        description: "One of the largest shopping centers in the region, offering a wide range of retail stores, dining options, and entertainment facilities with scenic views.",
+        activities: "Following our historical exploration, we visited SM Mall of Asia. We enjoyed walking around the expansive complex, taking in the impressive views and getting acquainted with the local retail environment. This casual exploration provided a pleasant and relaxed introduction to our educational journey."
       }
     ],
-    speakers: [
-      {
-        name: "Dr. Sophia Chen",
-        company: "Tech Solutions Inc.",
-        image: "/tour/speaker1.jpg",
-        about: "CTO at Tech Solutions Inc. with 15+ years of experience in software architecture. Dr. Chen specializes in distributed systems and has led the development of several enterprise platforms."
-      },
-      {
-        name: "Marcus Rivera",
-        company: "DataViz Systems",
-        image: "/tour/speaker2.jpg",
-        about: "Lead UX Designer at DataViz Systems who pioneered their human-centered design approach. Marcus has a background in cognitive psychology and applies those principles to create intuitive interfaces."
-      }
-    ]
+    speakers: []
   },
   
-  // Day 2 - HD 189733b (Exoplanet in Vulpecula constellation)
+  // Day 2 - HD 189733b (Company Visit Day)
   {
     day: 2,
     planet: "HD 189733b",
@@ -65,35 +52,22 @@ const tourData = [
     planetImage: "/tour/hd189733b.png",
     companies: [
       {
-        name: "Cloud Nexus",
+        name: "Foundever Philippines",
         image: "/tour/company3.jpg",
-        description: "Cloud Nexus provides cloud infrastructure and DevOps solutions for enterprises looking to modernize their IT operations.",
-        activities: "Our tour included their server rooms and a presentation on their deployment pipeline. We also participated in a hands-on session about containerization technologies and got to deploy a sample application to their cloud platform."
+        description: "A leading company in the BPO industry specializing in customer experience management and support services for global clients.",
+        activities: "We started our second day early, having breakfast at 6:00 AM before traveling to Pasig City to visit Foundever Philippines. Company representatives shared insights about their work culture, career growth opportunities, and work-life balance initiatives. Their presentations were particularly valuable for us as students preparing to enter the professional world. The visit included complimentary refreshments and a comprehensive site tour of their operational facilities."
       },
       {
-        name: "SecureNet",
+        name: "Google Philippines",
         image: "/tour/company4.jpg",
-        description: "SecureNet specializes in cybersecurity solutions for finance and healthcare, providing robust protection against modern threats.",
-        activities: "We learned about their threat detection systems and participated in a simulated security breach exercise to understand incident response protocols. The team demonstrated how they identify and mitigate zero-day vulnerabilities."
+        description: "The regional office of the global technology giant, focusing on local market development, digital innovation, and tech community support.",
+        activities: "After lunch in our transport vehicle, we proceeded to Google Philippines for our afternoon visit. This was a highlight of our tour, featuring an inspiring presentation from the company's President. He shared his unconventional career path—studying law before eventually following his passion for technology to become a leader at one of the world's most influential tech companies. His story emphasized the importance of pursuing one's true interests regardless of initial career directions."
       }
     ],
-    speakers: [
-      {
-        name: "Alex Patel",
-        company: "Cloud Nexus",
-        image: "/tour/speaker3.jpg",
-        about: "Infrastructure Architect at Cloud Nexus with expertise in designing scalable cloud solutions. Alex is a certified AWS Solutions Architect and has helped numerous companies migrate to cloud-native architectures."
-      },
-      {
-        name: "Elena Rodríguez",
-        company: "SecureNet",
-        image: "/tour/speaker4.jpg",
-        about: "Head of Security Operations at SecureNet and former cybersecurity consultant for government agencies. Elena specializes in threat intelligence and has published papers on emerging security challenges."
-      }
-    ]
+    speakers: []
   },
   
-  // Day 3 - TRAPPIST-1e (Exoplanet in Aquarius constellation)
+  // Day 3 - TRAPPIST-1e (Company Visit Day)
   {
     day: 3,
     planet: "TRAPPIST-1e",
@@ -108,35 +82,22 @@ const tourData = [
     planetImage: "/tour/trappist1e.png",
     companies: [
       {
-        name: "AI Innovations",
+        name: "Teleperformance Philippines",
         image: "/tour/company5.jpg",
-        description: "AI Innovations develops machine learning solutions for various industries, transforming how businesses operate through intelligent automation.",
-        activities: "We observed their data scientists working on training models and had the opportunity to interact with their conversational AI systems currently in development. The team showed us how they use reinforcement learning to optimize model performance."
+        description: "A global leader in customer experience management providing omnichannel support services with a strong focus on digital transformation and employee development.",
+        activities: "Day three began with another early start. After breakfast at 6:00 AM, we visited Teleperformance Philippines. The company welcomed us warmly with presentations about their global presence and employee career development programs. They explained their diverse service offerings including customer support, technical assistance, and digital solutions for international clients. Their emphasis on work-life balance and creating a positive workplace environment was evident throughout the tour of their modern facilities."
       },
       {
-        name: "Digital Media Pro",
+        name: "Manila American Cemetery & Kollab Philippines",
         image: "/tour/company6.jpg",
-        description: "Digital Media Pro creates multimedia content and digital marketing solutions that help brands connect with their audience across platforms.",
-        activities: "We toured their content creation studios and participated in a workshop on SEO strategies and social media campaign development. They demonstrated their content analytics platform and showed case studies of successful campaigns."
+        description: "A combination visit to a historical memorial site honoring WWII veterans and a modern creative agency specializing in digital marketing and AI-driven solutions.",
+        activities: "After lunch, we visited the peaceful Manila American Cemetery and Memorial in Bonifacio Global City, observing the beautifully maintained grounds honoring American and Filipino soldiers from WWII. We then proceeded to Kollab Philippines, which featured a contemporary and innovative atmosphere. Their team discussed the importance of company culture in career choices and presented insights on how artificial intelligence is transforming workplaces. They also provided valuable advice on portfolio development before treating us to refreshments."
       }
     ],
-    speakers: [
-      {
-        name: "Dr. James Wilson",
-        company: "AI Innovations",
-        image: "/tour/speaker5.jpg",
-        about: "Research Director at AI Innovations with a PhD in Machine Learning from MIT. Dr. Wilson leads a team developing cutting-edge natural language processing models and has contributed to several open-source AI projects."
-      },
-      {
-        name: "Sarah Johnson",
-        company: "Digital Media Pro",
-        image: "/tour/speaker6.jpg",
-        about: "Creative Director at Digital Media Pro with background in digital storytelling. Sarah has led award-winning campaigns for major brands and specializes in creating content that drives engagement."
-      }
-    ]
+    speakers: []
   },
   
-  // Day 4 - Proxima Centauri b (Exoplanet in Alpha Centauri system)
+  // Day 4 - Proxima Centauri b (Company Visit Day)
   {
     day: 4,
     planet: "Proxima Centauri b",
@@ -151,34 +112,191 @@ const tourData = [
     planetImage: "/tour/proximab.png",
     companies: [
       {
-        name: "Quantum Computing Labs",
+        name: "Asian Development Bank (ADB)",
         image: "/tour/company7.jpg",
-        description: "Quantum Computing Labs is pioneering practical applications of quantum technology, working to solve previously intractable computational problems.",
-        activities: "We were given a tour of their quantum computing facility and saw demonstrations of quantum algorithms in action. The research team explained how they're addressing quantum decoherence and scaling challenges in their systems."
+        description: "A regional financial institution dedicated to reducing poverty and promoting sustainable economic growth across Asia through strategic investments and development projects.",
+        activities: "Our fourth day began with an early breakfast before visiting the Asian Development Bank. We were immediately impressed by their strict security protocols and immaculate facilities. The visit included a tour of their small museum where we learned about ADB's history and mission to improve lives across Asia. In their grand conference room, we were served refreshments before attending presentations by technology and development professionals. A personal highlight was presenting our project, RePay, to the distinguished audience."
       },
       {
-        name: "BioTech Frontiers",
+        name: "MicroSourcing",
         image: "/tour/company8.jpg",
-        description: "BioTech Frontiers develops cutting-edge biomedical technologies and computational biology solutions to address global health challenges.",
-        activities: "During our visit, we explored their genomic sequencing lab and participated in a workshop on CRISPR gene editing technology. We also learned about their AI-driven drug discovery platform that accelerates medical research."
+        description: "A specialized outsourcing provider offering tailored staffing solutions and managed services with a focus on building long-term client relationships and employee development.",
+        activities: "After returning to our dormitory for lunch and a brief rest, we visited MicroSourcing in the afternoon. Their CEO delivered an insightful talk emphasizing the importance of both technical and soft skills in professional success. Following a comprehensive site tour, they treated us to J.CO Donuts and refreshments. A particularly valuable session covered LinkedIn profile optimization, while another speaker shared the inspirational message to 'Always keep your fork'—a metaphor reminding us that something good is always still to come, just as dessert follows a meal."
       }
     ],
-    speakers: [
+    speakers: []
+  },
+  
+  // Day 5 - Gliese 581d (Tagaytay Trip)
+  {
+    day: 5,
+    planet: "Gliese 581d",
+    planetInfo: "A potentially habitable super-Earth exoplanet orbiting within the habitable zone of the red dwarf star Gliese 581, about 20 light-years from Earth.",
+    colorScheme: {
+      primary: "from-teal-600 to-teal-900",
+      secondary: "border-teal-500",
+      accent: "bg-teal-600",
+      text: "text-teal-500",
+      background: "bg-gradient-to-b from-teal-800/20 to-teal-700/5"
+    },
+    planetImage: "/tour/gliese581d.png",
+    companies: [
       {
-        name: "Dr. Aisha Malik",
-        company: "Quantum Computing Labs",
-        image: "/tour/speaker7.jpg",
-        about: "Principal Quantum Physicist at Quantum Computing Labs who earned her doctorate at Caltech. Dr. Malik is known for her work on quantum error correction and has been featured in Scientific American for her breakthroughs in quantum coherence."
+        name: "Sky View Park",
+        image: "/tour/company9.jpg",
+        description: "A scenic overlook offering panoramic views of the surrounding highlands, popular for photography and experiencing the region's unique microclimate.",
+        activities: "On Independence Day, we enjoyed the freedom to explore Tagaytay. Despite cold and foggy weather, we visited Sky View Park where the strong winds didn't stop us from taking numerous photos—individual selfies, group pictures, and a complete group shot. We also purchased local snacks and souvenirs to bring home as mementos of our visit to this picturesque location."
       },
       {
-        name: "Dr. David Kim",
-        company: "BioTech Frontiers",
-        image: "/tour/speaker8.jpg",
-        about: "Head of Research at BioTech Frontiers with dual background in molecular biology and computer science. Dr. Kim leads interdisciplinary teams developing computational models for protein folding and has contributed to several patented medical technologies."
+        name: "Sky Ranch Tagaytay",
+        image: "/tour/company10.jpg",
+        description: "An outdoor amusement park featuring various rides and attractions with spectacular views of Taal Lake and Volcano, offering both thrilling and family-friendly experiences.",
+        activities: "Our next stop was Sky Ranch Tagaytay, where we had a picnic-style lunch in the parking area before entering. Inside, we experienced various rides ranging from gentle to extreme. The thrilling attractions elicited screams, laughter, and even made some of our friends dizzy enough to become ill—yet it remained a highlight of our day. We captured more photos, enjoyed snacks, and appreciated Tagaytay's beautiful scenery. By evening, we were tired but thoroughly satisfied with our recreational break from company visits."
       }
-    ]
+    ],
+    speakers: []
+  },
+  
+  // Day 6 - TOI-700d (Baguio Tour)
+  {
+    day: 6,
+    planet: "TOI-700d",
+    planetInfo: "An Earth-sized exoplanet in the habitable zone of its star TOI-700, about 100 light-years from Earth in the Dorado constellation.",
+    colorScheme: {
+      primary: "from-amber-600 to-orange-800",
+      secondary: "border-amber-500",
+      accent: "bg-amber-600",
+      text: "text-amber-500",
+      background: "bg-gradient-to-b from-amber-800/20 to-amber-700/5"
+    },
+    planetImage: "/tour/toi700d.png",
+    companies: [
+      {
+        name: "La Trinidad Strawberry Farm & Cultural Sites",
+        image: "/tour/company11.jpg",
+        description: "A working agricultural attraction where visitors can experience strawberry cultivation alongside a tour of important cultural landmarks in the region.",
+        activities: "Following our enjoyable day in Tagaytay, we departed at 1:00 AM for a 6-hour journey to Baguio, mostly sleeping during the overnight trip. Upon arrival around 6:00 AM, we first visited La Trinidad Strawberry Farm in Benguet, appreciating the cool, refreshing climate. We explored the farm, purchasing souvenirs like strawberry preserves, handcrafted items, fresh produce, and the famous strawberry taho. We then visited the Bell Church with its distinctive Chinese-inspired architecture before touring the Philippine Military Academy campus and passing The Mansion, a notable local landmark."
+      },
+      {
+        name: "Mines View Park & Baguio Night Market",
+        image: "/tour/company12.jpg",
+        description: "A combination of daytime scenic views at an observation deck overlooking former mining areas and an evening market experience featuring local products and street food.",
+        activities: "After checking into our hotel for lunch and rest, we continued to Mines View Park where we enjoyed the cool weather and panoramic vistas. Many of us posed for photos with large dogs and horses, and some tried on traditional Cordilleran attire, gaining insights into local cultural practices. As evening arrived, we explored the Baguio Night Market, sampling various street foods and browsing the famous ukay-ukay (thrift shops) where several of us found affordable clothing and souvenirs. Despite the cold weather and physical fatigue, the day created wonderful memories of Baguio's unique atmosphere."
+      }
+    ],
+    speakers: []
+  },
+  
+  // Day 7 - LHS 1140b (Last Day in Baguio)
+  {
+    day: 7,
+    planet: "LHS 1140b",
+    planetInfo: "A rocky super-Earth exoplanet orbiting within the habitable zone of the red dwarf LHS 1140, about 49 light-years from Earth.",
+    colorScheme: {
+      primary: "from-cyan-600 to-sky-800",
+      secondary: "border-cyan-500",
+      accent: "bg-cyan-600",
+      text: "text-cyan-500",
+      background: "bg-gradient-to-b from-cyan-800/20 to-cyan-700/5"
+    },
+    planetImage: "/tour/lhs1140b.png",
+    companies: [
+      {
+        name: "Burnham Park",
+        image: "/tour/company13.jpg",
+        description: "A historic urban park in the heart of Baguio City offering boat rides, bicycle rentals, and beautifully landscaped gardens for recreation and relaxation.",
+        activities: "On our final day in Baguio, we enjoyed breakfast before being given free time to explore independently. My group chose to visit Burnham Park where we rented bikes and had a great time circling the paths, comparing our experience to driving miniature racing cars while enjoying the crisp mountain air. During our exploration, we spotted SM Baguio in the distance and decided to walk there, underestimating the actual distance. The extended journey became a humorous anecdote as we joked about being 'scammed' by our own miscalculation of the distance."
+      },
+      {
+        name: "Return to Quezon City",
+        image: "/tour/company14.jpg",
+        description: "The journey back to metropolitan Manila, transitioning from the highland climate to prepare for departure the following day.",
+        activities: "By 11:30 AM, we reunited to have lunch and prepare for our return trip to Quezon City. We arrived at our dormitory around 6:00 PM, where we rested briefly before having dinner and beginning to pack our luggage for the next day's flight home. The evening was quiet as we reflected on the unforgettable week of experiences we had shared across multiple destinations."
+      }
+    ],
+    speakers: []
+  },
+  
+  // Day 8 - K2-18b (Return Journey)
+  {
+    day: 8,
+    planet: "K2-18b",
+    planetInfo: "A potentially habitable exoplanet orbiting the red dwarf star K2-18, located 124 light-years away in the constellation Leo.",
+    colorScheme: {
+      primary: "from-indigo-600 to-violet-900",
+      secondary: "border-indigo-500",
+      accent: "bg-indigo-600",
+      text: "text-indigo-500",
+      background: "bg-gradient-to-b from-indigo-800/20 to-indigo-700/5"
+    },
+    planetImage: "/tour/k218b.png",
+    companies: [
+      {
+        name: "NAIA Terminal 2",
+        image: "/tour/company15.jpg",
+        description: "The main international gateway serving as the departure point for the return journey after completing the industrial tour program.",
+        activities: "Our final tour day arrived as we left the dormitory in Quezon City early in the morning, heading to NAIA Terminal 2 for our flight back to Zamboanga City. We gathered our belongings, checked our luggage, and prepared for the journey home with mixed emotions about concluding our educational expedition."
+      },
+      {
+        name: "Return to Zamboanga",
+        image: "/tour/company16.jpg",
+        description: "The completion of the circular journey, bringing participants back to their starting point with new knowledge, experiences, and professional connections.",
+        activities: "The flight home was smooth, though tinged with some sadness at leaving behind the exciting week of exploration in Manila, Tagaytay, and Baguio. Despite physical exhaustion from our extensive travels, we returned with valuable knowledge, real-world industry exposure, and unforgettable memories. The tour provided each of us with new perspectives on potential career paths and a deeper appreciation for the diverse opportunities awaiting us after graduation."
+      }
+    ],
+    speakers: []
   }
 ];
+
+// Create a custom TourFooter component
+const TourFooter = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <footer className="relative border-t border-border overflow-hidden">
+      {/* Stars background */}
+      <div className="absolute inset-0 z-0">
+        {/* Same stars as in the main Footer */}
+        <div className="absolute w-1 h-1 bg-white rounded-full top-4 left-[10%] opacity-70"></div>
+        <div className="absolute w-2 h-2 bg-white rounded-full top-10 left-[25%] opacity-60"></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-16 left-[40%] opacity-80"></div>
+        <div className="absolute w-1.5 h-1.5 bg-white rounded-full top-6 left-[60%] opacity-70"></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-14 left-[75%] opacity-50"></div>
+        <div className="absolute w-1.5 h-1.5 bg-white rounded-full top-8 left-[85%] opacity-90"></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-20 left-[95%] opacity-60"></div>
+        <div className="absolute w-2 h-2 bg-white rounded-full top-16 left-[15%] opacity-80"></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-4 left-[55%] opacity-70"></div>
+      </div>
+
+      {/* Cosmic gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-transparent to-blue-900/30 z-0"></div>
+
+      <div className="container py-8 px-4 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
+        <div className="text-center md:text-left">
+          <p className="text-sm text-primary/90 font-medium mb-1">
+            Exploring the cosmos of web development
+          </p>
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} John Mathew Mauricio
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">Return to top</span>
+          <button
+            onClick={scrollToTop}
+            className="p-2 border border-primary/30 rounded-full bg-primary/10 hover:bg-primary/20 text-primary transition-all hover:scale-110"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp size={18} />
+          </button>
+        </div>
+      </div>
+    </footer>
+  );
+};
 
 export const TourPage = () => {
   const [imageModalOpen, setImageModalOpen] = useState(false);
@@ -203,8 +321,12 @@ export const TourPage = () => {
     setImageModalOpen(true);
   };
   
+  // Update the handleReturnRocketClick function to reset scroll position
   const handleReturnRocketClick = () => {
     if (!isLaunching) {
+      // Reset scroll position first
+      window.scrollTo(0, 0);
+      
       // Start the return launch sequence
       setIsLaunching(true);
       setLaunchPhase(1); // Enlarge phase
@@ -228,20 +350,6 @@ export const TourPage = () => {
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Background Effects */}
       <StarBackground />
-      
-      {/* Header */}
-      <header className="sticky top-0 bg-background/90 backdrop-blur-md border-b border-primary/20 p-4 flex justify-between items-center z-20">
-        <h1 className="text-2xl md:text-3xl font-bold">
-          <span className="text-primary">Cosmic</span> Tour Experience
-        </h1>
-        <Link 
-          to="/"
-          className="p-2 rounded-full hover:bg-primary/10 transition-colors flex items-center gap-2"
-        >
-          <X size={20} />
-          <span className="hidden sm:inline">Back to Portfolio</span>
-        </Link>
-      </header>
 
       {/* Theme Toggle - Added below the nav as requested */}
       <div className="relative">
@@ -331,14 +439,15 @@ export const TourPage = () => {
           <div className="container max-w-4xl mx-auto text-center z-10">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-                <span className="opacity-0 animate-fade-in">Interstellar</span>
+                <span className="opacity-0 animate-fade-in">Industrial</span>
                 <span className="text-primary opacity-0 animate-fade-in-delay-1"> Tour </span>
-                <span className="opacity-0 animate-fade-in-delay-2">Expedition</span>
+                <span className="opacity-0 animate-fade-in-delay-2">Experience</span>
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
-                Journey with us through our four-day cosmic tour across distant worlds from far-away galaxies.
-                Each day we visited different companies, exploring cutting-edge technologies and innovations.
+                Join us as we revisit our eight-day educational journey across Manila, Tagaytay, and Baguio. 
+                From company visits to cultural sites, our industrial tour combined professional learning 
+                with memorable experiences that inspired and prepared us for future careers.
               </p>
             </div>
           </div>
@@ -390,6 +499,20 @@ export const TourPage = () => {
                     {dayData.planet === "HD 189733b" && (
                       <div className="absolute inset-0 w-full h-full bg-blue-500/20 rounded-full animate-pulse-subtle"></div>
                     )}
+                    {dayData.planet === "Gliese 581d" && (
+                      <div className="absolute inset-0 w-full h-full bg-teal-500/20 rounded-full animate-pulse-slow"></div>
+                    )}
+                    {dayData.planet === "TOI-700d" && (
+                      <div className="absolute inset-0 w-[130%] h-[130%] -left-[15%] -top-[15%] 
+                                  border-4 border-amber-500/30 rounded-full -rotate-12"></div>
+                    )}
+                    {dayData.planet === "LHS 1140b" && (
+                      <div className="absolute inset-0 w-full h-full bg-cyan-500/20 rounded-full animate-pulse-subtle"></div>
+                    )}
+                    {dayData.planet === "K2-18b" && (
+                      <div className="absolute inset-0 w-[120%] h-[120%] -left-[10%] -top-[10%] 
+                                  border-2 border-indigo-500/40 rounded-full rotate-45"></div>
+                    )}
                     {dayData.planet === "Proxima Centauri b" && (
                       <div className="absolute inset-0 w-[120%] h-[120%] -left-[10%] -top-[10%] 
                                   border-2 border-rose-500/30 rounded-full"></div>
@@ -416,7 +539,11 @@ export const TourPage = () => {
                         dayData.colorScheme.text === 'text-emerald-500' ? '#10b981' : 
                         dayData.colorScheme.text === 'text-blue-500' ? '#3b82f6' : 
                         dayData.colorScheme.text === 'text-purple-500' ? '#a855f7' : 
-                        '#f43f5e'
+                        dayData.colorScheme.text === 'text-rose-500' ? '#f43f5e' :
+                        dayData.colorScheme.text === 'text-teal-500' ? '#14b8a6' :
+                        dayData.colorScheme.text === 'text-amber-500' ? '#f59e0b' :
+                        dayData.colorScheme.text === 'text-cyan-500' ? '#06b6d4' :
+                        '#818cf8'
                      })`}}>
                 </div>
               </div>
@@ -450,7 +577,7 @@ export const TourPage = () => {
                     
                     {/* Company description section */}
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold uppercase text-muted-foreground mb-2">About the Company</h4>
+                      <h4 className="text-sm font-semibold uppercase text-muted-foreground mb-2">About the Location</h4>
                       <p className="text-muted-foreground">
                         {company.description}
                       </p>
@@ -458,7 +585,7 @@ export const TourPage = () => {
                     
                     {/* Activities section */}
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold uppercase text-muted-foreground mb-2">Our Activities</h4>
+                      <h4 className="text-sm font-semibold uppercase text-muted-foreground mb-2">Our Experience</h4>
                       <p className="text-muted-foreground">
                         {company.activities}
                       </p>
@@ -472,45 +599,6 @@ export const TourPage = () => {
                   </div>
                 ))}
               </div>
-              
-              {/* Speakers Section */}
-              <div className="mt-24">
-                <h3 className="text-2xl font-bold mb-8 text-center">
-                  Featured <span className={dayData.colorScheme.text}>Speakers</span>
-                </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  {dayData.speakers.map((speaker, speakerIndex) => (
-                    <div 
-                      key={speakerIndex} 
-                      className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 gradient-border rounded-lg transition-all duration-300 hover:shadow-xl"
-                    >
-                      {/* Speaker image */}
-                      <div className="w-24 h-24 rounded-full overflow-hidden border-2 shadow-lg shrink-0"
-                           style={{borderColor: `var(--color-primary)`}}>
-                        <img 
-                          src={speaker.image} 
-                          alt={speaker.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      
-                      {/* Speaker info */}
-                      <div className="flex-1 text-center sm:text-left">
-                        <h4 className={`text-xl font-semibold mb-1 ${dayData.colorScheme.text}`}>
-                          {speaker.name}
-                        </h4>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          {speaker.company}
-                        </p>
-                        <p className="text-muted-foreground">
-                          {speaker.about}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </section>
         ))}
@@ -520,9 +608,9 @@ export const TourPage = () => {
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col items-center text-center mb-12">
               <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary/50 rounded-full opacity-70 mb-8"></div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Our Cosmic Guide</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">Our Tour Partner</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                We extend our gratitude to our interstellar travel partner who made this journey possible
+                We extend our sincere appreciation to our travel partner who made this educational journey possible
               </p>
             </div>
             
@@ -555,26 +643,28 @@ export const TourPage = () => {
               <div className="flex-1 text-center md:text-left">
                 <h3 className="text-2xl font-bold text-primary mb-2">DJM Travel & Tour Services</h3>
                 <p className="text-muted-foreground mb-6">
-                  Our expert cosmic guide through the wonders of distant exoplanets
+                  Our expert guide through this educational industrial tour
                 </p>
                 
                 <div className="space-y-4">
                   <p>
-                    We extend our heartfelt appreciation to DJM for their unparalleled expertise 
-                    that made our four-day cosmic tour a reality. Their extensive knowledge of interstellar navigation 
-                    and exoplanet environments ensured our safe journey across the stars.
+                    Our eight-day industrial tour wouldn't have been possible without the exceptional organizational 
+                    skills of DJM Travel & Tour Services. Their careful planning transformed an educational requirement 
+                    into a journey filled with meaningful experiences across Manila, Tagaytay, and Baguio.
                   </p>
                   
                   <p>
-                    From providing specialized equipment for each planetary environment to arranging meetings with 
-                    the brilliant minds we encountered, DJM's attention to detail was impeccable. Their vast network 
-                    of contacts across the cosmos opened doors to technologies and insights we could scarcely imagine.
+                    From coordinating transportation during unpredictable weather to arranging exclusive sessions 
+                    with industry leaders like the President of Google Philippines, their attention to detail enhanced 
+                    every aspect of our trip. They struck the perfect balance between professional development, 
+                    cultural immersion, and recreational activities.
                   </p>
                   
                   <p>
-                    Most importantly, DJM's commitment to educational exploration has enriched our understanding of the 
-                    universe and the possibilities that await humanity among the stars. We couldn't have asked for a more 
-                    knowledgeable or dedicated partner for this extraordinary journey.
+                    Although we returned physically tired from our extensive travels, we came home intellectually 
+                    energized with new knowledge, valuable industry connections, and practical insights for our 
+                    future careers. DJM's thoughtful guidance ensured each participant found personal value 
+                    and growth throughout this comprehensive industrial tour experience.
                   </p>
                 </div>
                 
@@ -589,7 +679,7 @@ export const TourPage = () => {
       </main>
       
       {/* Footer - Include same footer as Home page */}
-      <Footer />
+      <TourFooter />
       
       {/* Image modal */}
       {imageModalOpen && (
