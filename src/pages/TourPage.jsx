@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { X, Rocket, ArrowUp } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { X, Rocket, ArrowUp, Menu, Moon, Sun } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { StarBackground } from "@/components/StarBackground";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { Footer as MainFooter } from "../components/Footer";
+import { cn } from "@/lib/utils";
 
 // Tour data with planetary theme - expanded to 8 planets
 const tourData = [
@@ -298,6 +299,215 @@ const TourFooter = () => {
   );
 };
 
+// TourNavbar component that mimics the main Navbar functionality
+const TourNavbar = ({ isDarkMode, toggleTheme }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeDay, setActiveDay] = useState(1); // Default to Day 1
+  const mobileNavRef = useRef(null);
+  const navContentRef = useRef(null);
+  const toggleBtnRef = useRef(null);
+
+  // Create simplified nav items from tourData - just days, no planets
+  const navItems = tourData.map(day => ({
+    name: `Day ${day.day}`,
+    href: `#day-${day.day}`,
+    day: day.day
+  }));
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+      
+      // Track which section is currently in view
+      const sections = tourData.map(day => 
+        document.getElementById(`day-${day.day}`)
+      );
+      
+      // Calculate which section is most in view
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section) {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          
+          if (scrollPosition >= sectionTop && scrollPosition <= sectionTop + sectionHeight) {
+            setActiveDay(tourData[i].day);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Handle clicks outside of menu to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isMenuOpen && 
+        navContentRef.current && 
+        !navContentRef.current.contains(event.target) && 
+        toggleBtnRef.current && 
+        !toggleBtnRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMenuOpen]);
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+    } else {
+      // Restore scroll position
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      }
+    }
+    
+    return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+    };
+  }, [isMenuOpen]);
+
+  return (
+    <nav
+      className={cn(
+        "fixed w-full z-40 transition-all duration-300",
+        isScrolled ? "py-4 bg-background/80 backdrop-blur-md shadow-xs" : "py-4"
+      )}
+    >
+      <div className="container flex items-center justify-between">
+        {/* Left - Logo */}
+        <Link
+          className="text-xl font-bold text-primary flex items-center"
+          to="/"
+        >
+          <span className="relative z-10">
+            <span className="text-glow text-foreground">Space</span>{" "}
+            Tour
+          </span>
+        </Link>
+
+        {/* Center - Navigation Items (Desktop) */}
+        <div className="hidden lg:flex items-center justify-center flex-grow">
+          <div className="flex items-center gap-2 p-1 rounded-lg bg-background/50 backdrop-blur-sm border border-border">
+            {navItems.map((item) => {
+              const isActive = activeDay === item.day;
+              return (
+                <a
+                  key={item.day}
+                  href={item.href}
+                  className={cn(
+                    "px-4 py-2 rounded-md transition-all duration-300 text-sm font-medium",
+                    isActive 
+                      ? "bg-primary/90 text-primary-foreground shadow-sm" 
+                      : "text-foreground/80 hover:bg-primary/10 hover:text-primary"
+                  )}
+                >
+                  {item.name}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right - Theme toggle and mobile menu button */}
+        <div className="flex items-center">
+          {/* Theme toggle - always visible */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full border border-primary/20 hover:bg-primary/10 transition-colors duration-300 mr-2"
+            aria-label={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {isDarkMode ? (
+              <Sun className="h-5 w-5 text-yellow-300" />
+            ) : (
+              <Moon className="h-5 w-5 text-blue-900" />
+            )}
+          </button>
+
+          {/* Mobile menu button - only visible on mobile */}
+          <button
+            ref={toggleBtnRef}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="lg:hidden p-2 text-foreground z-50 relative"
+            aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile nav overlay */}
+        <div
+          ref={mobileNavRef}
+          className={cn(
+            "fixed top-0 left-0 w-full h-full bg-background/95 backdrop-blur-md z-40",
+            "flex items-center justify-center lg:hidden",
+            "transition-all duration-300",
+            isMenuOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          )}
+        >
+          {/* Mobile nav content wrapper */}
+          <div 
+            ref={navContentRef}
+            className="flex flex-col items-center max-h-[80vh] overflow-y-auto py-8"
+          >
+            <div className="flex flex-col space-y-3 p-2 bg-background/30 rounded-lg border border-border/50">
+              {navItems.map((item, key) => {
+                const isActive = activeDay === item.day;
+                return (
+                  <a
+                    key={key}
+                    href={item.href}
+                    className={cn(
+                      "px-6 py-3 rounded-md transition-all duration-300 text-center",
+                      isActive 
+                        ? "bg-primary text-primary-foreground" 
+                        : "bg-background/80 text-foreground/80 hover:bg-primary/10 hover:text-primary"
+                    )}
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      transform: isMenuOpen ? 'translateY(0)' : 'translateY(-20px)',
+                      opacity: isMenuOpen ? 1 : 0,
+                      transitionDelay: isMenuOpen ? `${200 + key * 100}ms` : '0ms',
+                      transitionProperty: 'transform, opacity',
+                      transitionDuration: '500ms'
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
 export const TourPage = () => {
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -305,7 +515,11 @@ export const TourPage = () => {
   const [launchPhase, setLaunchPhase] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
+  const mobileNavRef = useRef(null);
+  const navContentRef = useRef(null);
+  const toggleBtnRef = useRef(null);
   
   useEffect(() => {
     // Show return rocket after a short delay
@@ -313,30 +527,43 @@ export const TourPage = () => {
       setIsVisible(true);
     }, 500);
 
+    // Check initial theme on load
+    const storedTheme = localStorage.getItem("theme");
+    setIsDarkMode(
+      storedTheme === "dark" ||
+        (!storedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+
     return () => clearTimeout(timer);
   }, []);
+  
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+      setIsDarkMode(true);
+    }
+  };
   
   const openImageModal = (image) => {
     setSelectedImage(image);
     setImageModalOpen(true);
   };
   
-  // Update the handleReturnRocketClick function to reset scroll position
   const handleReturnRocketClick = () => {
     if (!isLaunching) {
-      // Reset scroll position first
       window.scrollTo(0, 0);
-      
-      // Start the return launch sequence
       setIsLaunching(true);
-      setLaunchPhase(1); // Enlarge phase
+      setLaunchPhase(1);
       
-      // Phase 2: Flying to the top
       setTimeout(() => {
         setLaunchPhase(2);
       }, 1500);
       
-      // Phase 3: Disappear and navigate to home page
       setTimeout(() => {
         setLaunchPhase(3);
         setTimeout(() => {
@@ -350,13 +577,11 @@ export const TourPage = () => {
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Background Effects */}
       <StarBackground />
-
-      {/* Theme Toggle - Added below the nav as requested */}
-      <div className="relative">
-        <ThemeToggle />
-      </div>
       
-      {/* Full-screen overlay for launch sequence */}
+      {/* Navigation - new component */}
+      <TourNavbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+
+      {/* Launch sequence overlay */}
       {launchPhase > 0 && launchPhase < 3 && (
         <div 
           className="fixed inset-0 z-40 transition-all duration-500 flex items-center justify-center"
@@ -365,10 +590,8 @@ export const TourPage = () => {
             backdropFilter: "blur(8px)"
           }}
         >
-          {/* Milky way background at the top */}
           <div className="absolute top-0 left-0 w-full h-64 opacity-80">
             <div className="w-full h-full bg-gradient-to-b from-purple-900 to-transparent relative overflow-hidden">
-              {/* Stars in the milky way */}
               {Array.from({ length: 50 }).map((_, i) => (
                 <div
                   key={i}
@@ -387,7 +610,7 @@ export const TourPage = () => {
         </div>
       )}
       
-      {/* Return Rocket - positioned at bottom right just like in home page */}
+      {/* Return Rocket - positioned at bottom right */}
       <div
         className={`${launchPhase === 0 ? "fixed bottom-20 right-8 md:right-16" : "fixed"} 
           z-50 cursor-pointer transform transition-all duration-1000 
@@ -401,7 +624,6 @@ export const TourPage = () => {
         onMouseLeave={() => setIsHovering(false)}
         aria-label="Return rocket - click to return to portfolio"
       >
-        {/* Hover tooltip */}
         {isHovering && launchPhase === 0 && (
           <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm whitespace-nowrap border border-primary/30 animate-fade-in">
             Return To Orbit
@@ -409,7 +631,6 @@ export const TourPage = () => {
         )}
         
         <div className={`relative ${launchPhase === 1 ? "w-64 h-64" : "w-16 h-16 md:w-24 md:h-24"} transition-all duration-1000`}>
-          {/* Rocket flame animation when launching */}
           {(isLaunching || launchPhase > 0) && (
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-16 md:w-12 md:h-24 scale-100">
               <div className="absolute top-0 left-0 w-full h-full flex justify-center">
@@ -419,7 +640,6 @@ export const TourPage = () => {
             </div>
           )}
           
-          {/* Rocket image */}
           <img
             src="/img/rocket.png" 
             alt="Return Rocket" 
@@ -427,14 +647,13 @@ export const TourPage = () => {
               ${launchPhase === 0 && !isLaunching ? "hover:scale-110" : ""}`}
           />
           
-          {/* Floating animation */}
           {launchPhase === 0 && <div className="absolute inset-0 animate-float"></div>}
         </div>
       </div>
       
-      {/* Main Content */}
-      <main>
-        {/* Introduction - Styled like HeroSection */}
+      {/* Main Content - adjust top padding to account for navbar */}
+      <main className="pt-18">
+        {/* Introduction section */}
         <section className="z-10 relative min-h-[50vh] flex flex-col items-center justify-center px-4 py-16 bg-gradient-to-b from-primary/10 to-transparent">
           <div className="container max-w-4xl mx-auto text-center z-10">
             <div className="space-y-6">
@@ -452,34 +671,8 @@ export const TourPage = () => {
             </div>
           </div>
         </section>
-
-        {/* Planetary Navigation - Keep as is, it's unique and works well */}
-        <div className="fixed left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-6">
-          {tourData.map((day, index) => (
-            <a 
-              key={index}
-              href={`#day-${day.day}`}
-              className="group relative"
-              title={`Day ${day.day}: ${day.planet}`}
-            >
-              <div className="w-14 h-14 md:w-20 md:h-20 rounded-full overflow-hidden transition-all duration-300 
-                            transform group-hover:scale-110 border-2 border-white/20 shadow-lg">
-                <img 
-                  src={day.planetImage} 
-                  alt={day.planet}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap 
-                             bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-sm
-                             opacity-0 group-hover:opacity-100 transition-opacity">
-                Day {day.day}: {day.planet}
-              </span>
-            </a>
-          ))}
-        </div>
         
-        {/* Planet Sections */}
+        {/* Planet Sections - Rest of the content remains mostly unchanged */}
         {tourData.map((dayData, dayIndex) => (
           <section 
             key={dayIndex} 
@@ -489,9 +682,10 @@ export const TourPage = () => {
             <div className="container mx-auto max-w-5xl">
               {/* Day Header with planetary styling */}
               <div className="flex flex-col items-center mb-12">
+                {/* Planet image and effects - keep this part */}
                 <div className="relative mb-6">
                   <div className="w-28 h-28 md:w-36 md:h-36 relative">
-                    {/* Add special effects for different planets */}
+                    {/* Special effects for planets - keep these */}
                     {dayData.planet === "TRAPPIST-1e" && (
                       <div className="absolute inset-0 w-[140%] h-full -left-[20%] top-1/2 -translate-y-1/2 
                                   border-4 border-purple-600/40 rounded-full rotate-12"></div>
@@ -548,7 +742,7 @@ export const TourPage = () => {
                 </div>
               </div>
               
-              {/* Company Cards - Grid layout similar to ProjectsSection */}
+              {/* Company Cards grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 {dayData.companies.map((company, companyIndex) => (
                   <div 
