@@ -21,7 +21,7 @@ export const HeroSection = () => {
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground max-2-2xl mx-auto opacity-0 animate-fade-in-delay-3">
-            I am computer science student from Western Mindanao State University.
+            I am a computer science student from Western Mindanao State University.
             I’m eager to apply my growing expertise in real-world settings and 
               am actively seeking opportunities to contribute to modern, 
               user-focused web projects.
