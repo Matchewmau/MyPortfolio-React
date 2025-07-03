@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { X, Rocket, ArrowUp, ArrowDown, Menu, Moon, Sun } from "lucide-react";
+import { X, Rocket, ArrowUp, ArrowDown, Menu, Moon, Sun, ArrowLeft, ArrowRight, Camera } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { StarBackground } from "@/components/StarBackground";
 import { ThemeToggle } from "../components/ThemeToggle";
@@ -24,13 +24,13 @@ const tourData = [
     companies: [
       {
         name: "Intramuros Historic District",
-        image: "/tour/company1.jpg",
+        image: "/tour/company1.png",
         description: "A famous historical area in Manila featuring walls and buildings from the Spanish colonial period, showcasing centuries of cultural heritage.",
         activities: "Our tour began on a rainy Sunday morning. Despite the heavy rain, our flight proceeded as scheduled and we arrived in Manila around 8:00 AM. After settling into our dormitory accommodations and having brunch, we started our city tour at 1:00 PM, visiting Intramuros where we learned about historical sites and glimpsed into the region's rich past."
       },
       {
         name: "SM Mall of Asia",
-        image: "/tour/company2.jpg",
+        image: "/tour/company2.png",
         description: "One of the largest shopping centers in the region, offering a wide range of retail stores, dining options, and entertainment facilities with scenic views.",
         activities: "Following our historical exploration, we visited SM Mall of Asia. We enjoyed walking around the expansive complex, taking in the impressive views and getting acquainted with the local retail environment. This casual exploration provided a pleasant and relaxed introduction to our educational journey."
       }
@@ -54,18 +54,33 @@ const tourData = [
     companies: [
       {
         name: "Foundever Philippines",
-        image: "/tour/company3.jpg",
+        image: "/tour/company3.png",
         description: "A leading company in the BPO industry specializing in customer experience management and support services for global clients.",
         activities: "We started our second day early, having breakfast at 6:00 AM before traveling to Pasig City to visit Foundever Philippines. Company representatives shared insights about their work culture, career growth opportunities, and work-life balance initiatives. Their presentations were particularly valuable for us as students preparing to enter the professional world. The visit included complimentary refreshments and a comprehensive site tour of their operational facilities."
       },
       {
         name: "Google Philippines",
-        image: "/tour/company4.jpg",
+        image: "/tour/company4.png",
         description: "The regional office of the global technology giant, focusing on local market development, digital innovation, and tech community support.",
         activities: "After lunch in our transport vehicle, we proceeded to Google Philippines for our afternoon visit. This was a highlight of our tour, featuring an inspiring presentation from the company's President. He shared his unconventional career path—studying law before eventually following his passion for technology to become a leader at one of the world's most influential tech companies. His story emphasized the importance of pursuing one's true interests regardless of initial career directions."
       }
     ],
-    speakers: []
+    speakers: [
+      {
+        name: "Ms. Zoe Diaz De Rivera",
+        role: "Representative from IT & Business Process Association of the Philippines (IBPAP)",
+        company: "Foundever Philippines",
+        topic: "IT-BPM Industry Overview",
+        highlights: "Provided insights on current trends, career opportunities, and the Philippines' position as a global leader in the IT-BPM sector. Discussed how the industry employs over 1.7 million Filipinos and is being reshaped by automation, AI, and RPA."
+      },
+      {
+        name: "Atty. Yves Gonzalez",
+        role: "Head of Government Affairs and Public Policy",
+        company: "Google Philippines",
+        topic: "Google's Innovation and Public Policy",
+        highlights: "Presented on Google's mission, AI innovations powering services like Search and Translate, digital inclusion efforts, public-private collaborations for digital skilling, and the importance of ethical tech governance."
+      }
+    ]
   },
   
   // Day 3 - TRAPPIST-1e (Company Visit Day)
@@ -84,18 +99,54 @@ const tourData = [
     companies: [
       {
         name: "Teleperformance Philippines",
-        image: "/tour/company5.jpg",
+        image: "/tour/company5.png",
         description: "A global leader in customer experience management providing omnichannel support services with a strong focus on digital transformation and employee development.",
         activities: "Day three began with another early start. After breakfast at 6:00 AM, we visited Teleperformance Philippines. The company welcomed us warmly with presentations about their global presence and employee career development programs. They explained their diverse service offerings including customer support, technical assistance, and digital solutions for international clients. Their emphasis on work-life balance and creating a positive workplace environment was evident throughout the tour of their modern facilities."
       },
       {
         name: "Manila American Cemetery & Kollab Philippines",
-        image: "/tour/company6.jpg",
+        image: "/tour/company6.png",
         description: "A combination visit to a historical memorial site honoring WWII veterans and a modern creative agency specializing in digital marketing and AI-driven solutions.",
         activities: "After lunch, we visited the peaceful Manila American Cemetery and Memorial in Bonifacio Global City, observing the beautifully maintained grounds honoring American and Filipino soldiers from WWII. We then proceeded to Kollab Philippines, which featured a contemporary and innovative atmosphere. Their team discussed the importance of company culture in career choices and presented insights on how artificial intelligence is transforming workplaces. They also provided valuable advice on portfolio development before treating us to refreshments."
       }
     ],
-    speakers: []
+    speakers: [
+      {
+        name: "Beatrice Grace Bonjibod",
+        role: "Brand Marketing Specialist",
+        company: "Teleperformance Philippines",
+        topic: "TP Overview and Industry Insights",
+        highlights: "Discussed TP as a global leader in digitally integrated business services, highlighting their commitment to inclusivity with 53% female workforce and emphasizing the importance of soft skills alongside technical competencies."
+      },
+      {
+        name: "Ralph Vincent Regalado",
+        role: "Chief Scientist and Head of AI",
+        company: "Kollab Philippines",
+        topic: "Company Introduction",
+        highlights: "Introduced Kollab's vision of empowering digital innovation through collaborative technology solutions and their dynamic approach to AI, development, and human-centered design."
+      },
+      {
+        name: "Jazmine Calma",
+        role: "Senior Engineer for Quality Assurance",
+        company: "Kollab Philippines",
+        topic: "Why Culture Matters",
+        highlights: "Emphasized how a healthy and inclusive workplace culture is foundational to product excellence, team growth, and personal development."
+      },
+      {
+        name: "Toni-Jan Keith Monserrat",
+        role: "Senior Principal Engineer for AI and Data",
+        company: "Kollab Philippines",
+        topic: "Applied AI: From Classroom to Real Use Cases",
+        highlights: "Demonstrated practical applications of AI across industries, connecting theoretical foundations to real-world innovations in agriculture, customer service, and health."
+      },
+      {
+        name: "Miguel Siriban",
+        role: "UI/UX Designer and UI Developer",
+        company: "Kollab Philippines",
+        topic: "How to Build a Dev Portfolio that Gets You Hired",
+        highlights: "Provided actionable tips on showcasing projects, storytelling through design, and tailoring portfolios to highlight technical skill and personal creativity."
+      }
+    ]
   },
   
   // Day 4 - Proxima Centauri b (Company Visit Day)
@@ -114,18 +165,40 @@ const tourData = [
     companies: [
       {
         name: "Asian Development Bank (ADB)",
-        image: "/tour/company7.jpg",
+        image: "/tour/company7.png",
         description: "A regional financial institution dedicated to reducing poverty and promoting sustainable economic growth across Asia through strategic investments and development projects.",
         activities: "Our fourth day began with an early breakfast before visiting the Asian Development Bank. We were immediately impressed by their strict security protocols and immaculate facilities. The visit included a tour of their small museum where we learned about ADB's history and mission to improve lives across Asia. In their grand conference room, we were served refreshments before attending presentations by technology and development professionals. A personal highlight was presenting our project, RePay, to the distinguished audience."
       },
       {
         name: "MicroSourcing",
-        image: "/tour/company8.jpg",
+        image: "/tour/company8.png",
         description: "A specialized outsourcing provider offering tailored staffing solutions and managed services with a focus on building long-term client relationships and employee development.",
         activities: "After returning to our dormitory for lunch and a brief rest, we visited MicroSourcing in the afternoon. Their CEO delivered an insightful talk emphasizing the importance of both technical and soft skills in professional success. Following a comprehensive site tour, they treated us to J.CO Donuts and refreshments. A particularly valuable session covered LinkedIn profile optimization, while another speaker shared the inspirational message to 'Always keep your fork'—a metaphor reminding us that something good is always still to come, just as dessert follows a meal."
       }
     ],
-    speakers: []
+    speakers: [
+      {
+        name: "IT Directors",
+        role: "Infrastructure Services (IS) and Network Services (NS)",
+        company: "Asian Development Bank (ADB)",
+        topic: "Fireside Chat with ADB's IT Leaders",
+        highlights: "Discussed the evolving role of technology in development work, their career journeys, and insights into global IT practices within multilateral institutions."
+      },
+      {
+        name: "CXC Representative",
+        role: "Global Recruitment and Staffing Company",
+        company: "Asian Development Bank (ADB)",
+        topic: "CXC Introduction",
+        highlights: "Explained CXC's role in talent sourcing, payroll management, and ensuring compliance with local labor laws in the Philippines and other countries."
+      },
+      {
+        name: "Heidee Enriquez",
+        role: "CEO of MicroSourcing and Beepo",
+        company: "MicroSourcing",
+        topic: "Welcome Remarks and Industry Insights",
+        highlights: "Emphasized the significance of digital skills, adaptability, and continuous learning in today's competitive job market, encouraging students to remain curious and understand how academic training applies to real-world scenarios."
+      }
+    ]
   },
   
   // Day 5 - Gliese 581d (Tagaytay Trip)
@@ -144,13 +217,13 @@ const tourData = [
     companies: [
       {
         name: "Sky View Park",
-        image: "/tour/company9.jpg",
+        image: "/tour/company9.png",
         description: "A scenic overlook offering panoramic views of the surrounding highlands, popular for photography and experiencing the region's unique microclimate.",
         activities: "On Independence Day, we enjoyed the freedom to explore Tagaytay. Despite cold and foggy weather, we visited Sky View Park where the strong winds didn't stop us from taking numerous photos—individual selfies, group pictures, and a complete group shot. We also purchased local snacks and souvenirs to bring home as mementos of our visit to this picturesque location."
       },
       {
         name: "Sky Ranch Tagaytay",
-        image: "/tour/company10.jpg",
+        image: "/tour/company10.png",
         description: "An outdoor amusement park featuring various rides and attractions with spectacular views of Taal Lake and Volcano, offering both thrilling and family-friendly experiences.",
         activities: "Our next stop was Sky Ranch Tagaytay, where we had a picnic-style lunch in the parking area before entering. Inside, we experienced various rides ranging from gentle to extreme. The thrilling attractions elicited screams, laughter, and even made some of our friends dizzy enough to become ill—yet it remained a highlight of our day. We captured more photos, enjoyed snacks, and appreciated Tagaytay's beautiful scenery. By evening, we were tired but thoroughly satisfied with our recreational break from company visits."
       }
@@ -174,13 +247,13 @@ const tourData = [
     companies: [
       {
         name: "La Trinidad Strawberry Farm & Cultural Sites",
-        image: "/tour/company11.jpg",
+        image: "/tour/company11.png",
         description: "A working agricultural attraction where visitors can experience strawberry cultivation alongside a tour of important cultural landmarks in the region.",
         activities: "Following our enjoyable day in Tagaytay, we departed at 1:00 AM for a 6-hour journey to Baguio, mostly sleeping during the overnight trip. Upon arrival around 6:00 AM, we first visited La Trinidad Strawberry Farm in Benguet, appreciating the cool, refreshing climate. We explored the farm, purchasing souvenirs like strawberry preserves, handcrafted items, fresh produce, and the famous strawberry taho. We then visited the Bell Church with its distinctive Chinese-inspired architecture before touring the Philippine Military Academy campus and passing The Mansion, a notable local landmark."
       },
       {
         name: "Mines View Park & Baguio Night Market",
-        image: "/tour/company12.jpg",
+        image: "/tour/company12.png",
         description: "A combination of daytime scenic views at an observation deck overlooking former mining areas and an evening market experience featuring local products and street food.",
         activities: "After checking into our hotel for lunch and rest, we continued to Mines View Park where we enjoyed the cool weather and panoramic vistas. Many of us posed for photos with large dogs and horses, and some tried on traditional Cordilleran attire, gaining insights into local cultural practices. As evening arrived, we explored the Baguio Night Market, sampling various street foods and browsing the famous ukay-ukay (thrift shops) where several of us found affordable clothing and souvenirs. Despite the cold weather and physical fatigue, the day created wonderful memories of Baguio's unique atmosphere."
       }
@@ -204,13 +277,13 @@ const tourData = [
     companies: [
       {
         name: "Burnham Park",
-        image: "/tour/company13.jpg",
+        image: "/tour/company13.png",
         description: "A historic urban park in the heart of Baguio City offering boat rides, bicycle rentals, and beautifully landscaped gardens for recreation and relaxation.",
         activities: "On our final day in Baguio, we enjoyed breakfast before being given free time to explore independently. My group chose to visit Burnham Park where we rented bikes and had a great time circling the paths, comparing our experience to driving miniature racing cars while enjoying the crisp mountain air. During our exploration, we spotted SM Baguio in the distance and decided to walk there, underestimating the actual distance. The extended journey became a humorous anecdote as we joked about being 'scammed' by our own miscalculation of the distance."
       },
       {
         name: "Return to Quezon City",
-        image: "/tour/company14.jpg",
+        image: "/tour/company14.png",
         description: "The journey back to metropolitan Manila, transitioning from the highland climate to prepare for departure the following day.",
         activities: "By 11:30 AM, we reunited to have lunch and prepare for our return trip to Quezon City. We arrived at our dormitory around 6:00 PM, where we rested briefly before having dinner and beginning to pack our luggage for the next day's flight home. The evening was quiet as we reflected on the unforgettable week of experiences we had shared across multiple destinations."
       }
@@ -233,19 +306,143 @@ const tourData = [
     planetImage: "/tour/k218b.png",
     companies: [
       {
-        name: "NAIA Terminal 2",
-        image: "/tour/company15.jpg",
-        description: "The main international gateway serving as the departure point for the return journey after completing the industrial tour program.",
-        activities: "Our final tour day arrived as we left the dormitory in Quezon City early in the morning, heading to NAIA Terminal 2 for our flight back to Zamboanga City. We gathered our belongings, checked our luggage, and prepared for the journey home with mixed emotions about concluding our educational expedition."
+        name: "Extended Stay with Family",
+        image: "/tour/company15.png",
+        description: "A meaningful pause in our journey for personal reconnection with loved ones living in Manila.",
+        activities: "Before heading home, I enjoyed a short extension to our tour to visit family members living in Manila. This special time allowed us to relax after an intensive week of learning and travel, while sharing our experiences and newfound knowledge with loved ones. We expressed gratitude for their support throughout our academic journey and strengthened family bonds through quality time together. This personal connection provided a perfect emotional transition between our educational expedition and return to normal student life."
       },
       {
         name: "Return to Zamboanga",
-        image: "/tour/company16.jpg",
+        image: "/tour/company16.png",
         description: "The completion of the circular journey, bringing participants back to their starting point with new knowledge, experiences, and professional connections.",
-        activities: "The flight home was smooth, though tinged with some sadness at leaving behind the exciting week of exploration in Manila, Tagaytay, and Baguio. Despite physical exhaustion from our extensive travels, we returned with valuable knowledge, real-world industry exposure, and unforgettable memories. The tour provided each of us with new perspectives on potential career paths and a deeper appreciation for the diverse opportunities awaiting us after graduation."
+        activities: "The flight home was smooth, though tinged with some sadness at leaving behind the exciting week of exploration in Manila, Tagaytay, and Baguio. Despite physical exhaustion from our extensive travels, I returned with valuable knowledge, real-world industry exposure, and unforgettable memories. The tour provided each of us with new perspectives on potential career paths and a deeper appreciation for the diverse opportunities awaiting us after graduation."
       }
     ],
     speakers: []
+  }
+];
+
+// Gallery images array
+const galleryImages = [
+  {
+    url: "/tour/gallery1.jpg",
+    alt: "gallery 1",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery2.jpg",
+    alt: "gallery 2",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery3.jpg",
+    alt: "gallery 3",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery4.jpg",
+    alt: "gallery 4",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery5.jpg",
+    alt: "gallery 5",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery6.jpg",
+    alt: "gallery 6",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery7.jpg",
+    alt: "gallery 7",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery8.jpg",
+    alt: "gallery 8",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery9.jpg",
+    alt: "gallery 9",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery10.jpg",
+    alt: "gallery 10",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery11.jpg",
+    alt: "gallery 11",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery12.jpg",
+    alt: "gallery 12",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery13.jpg",
+    alt: "gallery 13",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery14.jpg",
+    alt: "gallery 14",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery15.jpg",
+    alt: "gallery 15",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery16.jpg",
+    alt: "gallery 16",
+    caption: "view"
+  },
+    {
+    url: "/tour/gallery17.jpg",
+    alt: "gallery 17",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery18.jpg",
+    alt: "gallery 18",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery19.jpg",
+    alt: "gallery 19",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery20.jpg",
+    alt: "gallery 20",
+    caption: "view"
+  },
+      {
+    url: "/tour/gallery21.jpg",
+    alt: "gallery 21",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery22.jpg",
+    alt: "gallery 22",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery23.jpg",
+    alt: "gallery 23",
+    caption: "view"
+  },
+  {
+    url: "/tour/gallery24.jpg",
+    alt: "gallery 24",
+    caption: "view"
   }
 ];
 
@@ -515,15 +712,14 @@ const TourNavbar = ({ isDarkMode, toggleTheme }) => {
 export const TourPage = () => {
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [galleryMode, setGalleryMode] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
   const [launchPhase, setLaunchPhase] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
-  const mobileNavRef = useRef(null);
-  const navContentRef = useRef(null);
-  const toggleBtnRef = useRef(null);
   
   useEffect(() => {
     // Show return rocket after a short delay
@@ -531,14 +727,38 @@ export const TourPage = () => {
       setIsVisible(true);
     }, 500);
 
-    // Check initial theme on load
+    // Check initial theme on load and apply it immediately
     const storedTheme = localStorage.getItem("theme");
-    setIsDarkMode(
-      storedTheme === "dark" ||
-        (!storedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    
+    // Set the theme based on stored preference or system preference
+    if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    }
 
-    return () => clearTimeout(timer);
+    // Set up listener for system preference changes
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (e) => {
+      if (!localStorage.getItem("theme")) {
+        if (e.matches) {
+          document.documentElement.classList.add("dark");
+          setIsDarkMode(true);
+        } else {
+          document.documentElement.classList.remove("dark");
+          setIsDarkMode(false);
+        }
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => {
+      clearTimeout(timer);
+      mediaQuery.removeEventListener("change", handleChange);
+    };
   }, []);
   
   const toggleTheme = () => {
@@ -553,9 +773,27 @@ export const TourPage = () => {
     }
   };
   
-  const openImageModal = (image) => {
+  const openImageModal = (image, index = null, isGallery = false) => {
     setSelectedImage(image);
     setImageModalOpen(true);
+    setGalleryMode(isGallery);
+    if (index !== null) {
+      setCurrentImageIndex(index);
+    }
+  };
+  
+  const handleNextImage = () => {
+    if (galleryMode) {
+      setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
+      setSelectedImage(galleryImages[(currentImageIndex + 1) % galleryImages.length].url);
+    }
+  };
+  
+  const handlePreviousImage = () => {
+    if (galleryMode) {
+      setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+      setSelectedImage(galleryImages[(currentImageIndex - 1 + galleryImages.length) % galleryImages.length].url);
+    }
   };
   
   const handleReturnRocketClick = () => {
@@ -697,7 +935,7 @@ export const TourPage = () => {
             id={`day-${dayData.day}`}
             className={`py-24 px-4 relative ${dayIndex % 2 !== 0 ? 'bg-secondary/30' : ''}`}
           >
-            <div className="container mx-auto max-w-5xl">
+            <div className="container mx-auto max-w-6xl">
               {/* Day Header with planetary styling */}
               <div className="flex flex-col items-center mb-12">
                 {/* Planet image and effects - keep this part */}
@@ -767,17 +1005,18 @@ export const TourPage = () => {
                     key={companyIndex} 
                     className="gradient-border p-6 transition-all duration-300 group hover:shadow-xl rounded-lg overflow-hidden card-hover"
                   >
-                    <div className="h-48 relative overflow-hidden mb-6">
+                    <div className="h-100 relative overflow-hidden mb-6 rounded-lg cursor-pointer"
+                         onClick={() => openImageModal(company.image)}>
                       <img
                         src={company.image}
                         alt={company.name}
-                        onClick={() => openImageModal(company.image)}
                         className="w-full h-full object-cover transition-all duration-500 
-                                  group-hover:scale-110 cursor-pointer rounded-lg"
+                                  group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 
                                       transition-opacity flex items-center justify-center">
-                        <span className={`${dayData.colorScheme.accent} text-white px-3 py-1 rounded-full text-sm`}>
+                        <span className={`${dayData.colorScheme.accent} text-white px-3 py-1 rounded-full text-sm
+                                        opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
                           Click to enlarge
                         </span>
                       </div>
@@ -811,11 +1050,88 @@ export const TourPage = () => {
                   </div>
                 ))}
               </div>
+              
+              {/* Speakers Section - display only if the day has speakers */}
+              {dayData.speakers && dayData.speakers.length > 0 && (
+                <div className="mt-16">
+                  <h3 className="text-2xl font-bold mb-8 text-center">Featured Speakers</h3>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {dayData.speakers.map((speaker, speakerIndex) => (
+                      <div 
+                        key={speakerIndex} 
+                        className={`p-6 rounded-lg border ${dayData.colorScheme.secondary} bg-card/30 backdrop-blur-sm hover:shadow-md transition-all duration-300`}
+                      >
+                        <div className="flex flex-col h-full">
+                          <div className="mb-4">
+                            <h4 className="text-lg font-semibold">{speaker.name}</h4>
+                            <p className={`text-sm ${dayData.colorScheme.text}`}>{speaker.role}</p>
+                            <p className="text-xs text-muted-foreground mt-1">{speaker.company}</p>
+                          </div>
+                          
+                          <div className="flex-grow">
+                            <h5 className="text-sm font-medium mb-2">Presentation Topic:</h5>
+                            <p className="text-sm mb-3">{speaker.topic}</p>
+                            
+                            <h5 className="text-sm font-medium mb-2">Key Insights:</h5>
+                            <p className="text-xs text-muted-foreground">{speaker.highlights}</p>
+                          </div>
+                          
+                          <div className={`w-full h-1 mt-4 rounded-full bg-gradient-to-r ${dayData.colorScheme.primary} opacity-50`}></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </section>
         ))}
 
-        {/* Travel Partner DJM Section - Added after all planet sections */}
+        {/* Photo Gallery Section - Add this new section */}
+        <section id="photo-gallery" className="py-24 px-4 bg-gradient-to-b from-background to-secondary/20">
+          <div className="container mx-auto max-w-6xl">
+            <div className="flex flex-col items-center text-center mb-12">
+              <div className="relative mb-6">
+                <div className="w-16 h-16 md:w-20 md:h-20 relative">
+                  <div className="absolute inset-0 bg-primary/20 rounded-full blur-lg"></div>
+                  <div className="relative w-full h-full rounded-full bg-gradient-to-br from-primary/30 to-primary/5 
+                               border border-primary/30 flex items-center justify-center z-10">
+                    <Camera size={32} className="text-primary" />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary/50 rounded-full opacity-70 mb-8"></div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">Memorable Moments</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12">
+                A collection of shots and special memories from our unforgettable journey.
+              </p>
+              
+              {/* Gallery Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {galleryImages.map((image, index) => (
+                  <div 
+                    key={index}
+                    className="aspect-square overflow-hidden rounded-lg relative group cursor-pointer"
+                    onClick={() => openImageModal(image.url, index, true)}
+                  >
+                    <img 
+                      src={image.url} 
+                      alt={image.alt}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                      <p className="text-white text-sm font-medium">{image.caption}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Travel Partner DJM Section */}
         <section className="py-24 px-4 bg-gradient-to-b from-primary/5 to-background">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col items-center text-center mb-12">
@@ -866,9 +1182,7 @@ export const TourPage = () => {
                   </p>
                   
                   <p>
-                    From coordinating transportation during unpredictable weather to arranging exclusive sessions 
-                    with industry leaders like the President of Google Philippines, their attention to detail enhanced 
-                    every aspect of our trip. They struck the perfect balance between professional development, 
+                    They struck the perfect balance between professional development, 
                     cultural immersion, and recreational activities.
                   </p>
                   
@@ -893,31 +1207,93 @@ export const TourPage = () => {
       {/* Footer - Include same footer as Home page */}
       <TourFooter />
       
-      {/* Image modal */}
-      {imageModalOpen && (
-        <div 
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setImageModalOpen(false)}
+      {/* Enhanced Image Modal with Navigation */}
+      <ImageModal 
+        isOpen={imageModalOpen}
+        image={selectedImage}
+        alt={galleryMode ? galleryImages[currentImageIndex].alt : "Enlarged view"}
+        onClose={() => setImageModalOpen(false)}
+        onNext={handleNextImage}
+        onPrevious={handlePreviousImage}
+        hasNavigation={galleryMode}
+      />
+    </div>
+  );
+};
+
+// Updated Image Modal component with navigation
+const ImageModal = ({ isOpen, image, alt, onClose, onNext, onPrevious, hasNavigation }) => {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+      if (hasNavigation) {
+        if (e.key === "ArrowRight") onNext();
+        if (e.key === "ArrowLeft") onPrevious();
+      }
+    };
+
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose, onNext, onPrevious, hasNavigation]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="relative max-w-4xl max-h-[90vh] rounded-lg overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 rounded-full bg-background/80 hover:bg-background/100 transition-colors duration-200 z-10"
+          aria-label="Close image"
         >
-          <div 
-            className="relative max-w-4xl max-h-[90vh] rounded-lg overflow-hidden shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <X size={24} className="text-foreground" />
+        </button>
+        
+        {hasNavigation && (
+          <>
             <button 
-              onClick={() => setImageModalOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-background/80 hover:bg-background/100 transition-colors duration-200"
-              aria-label="Close image"
+              onClick={(e) => {
+                e.stopPropagation();
+                onPrevious();
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/50 hover:bg-background/80 transition-colors duration-200 z-10"
+              aria-label="Previous image"
             >
-              <X size={24} className="text-foreground" />
+              <ArrowLeft size={24} className="text-foreground" />
             </button>
-            <img 
-              src={selectedImage} 
-              alt="Enlarged view"
-              className="max-w-full max-h-[90vh] object-contain"
-            />
-          </div>
-        </div>
-      )}
+            
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onNext();
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/50 hover:bg-background/80 transition-colors duration-200 z-10"
+              aria-label="Next image"
+            >
+              <ArrowRight size={24} className="text-foreground" />
+            </button>
+          </>
+        )}
+        
+        <img 
+          src={image} 
+          alt={alt}
+          className="max-w-full max-h-[90vh] object-contain"
+        />
+      </div>
     </div>
   );
 };
